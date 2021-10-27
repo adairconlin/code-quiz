@@ -1,12 +1,48 @@
+let timeCount = 0;
+let currentSlide = 0;
+let currentQuestion = {
+    question1: {
+        title: "Question 1",
+        answers: [
+            "1. Answer 1", "2. Answer 2", "3. Answer 3", "4. Answer 4", "5. Answer 5"
+        ]
+    },
+    question2: {
+        title: "Question 2",
+        answers: [
+            "1. Answer 1", "2. Answer 2", "3. Answer 3", "4. Answer 4", "5. Answer 5"
+        ]
+    },
+    question3: {
+        title: "Question 3",
+        answers: [
+            "1. Answer 1", "2. Answer 2", "3. Answer 3", "4. Answer 4", "5. Answer 5"
+        ]
+    },
+    question4: {
+        title: "Question 4",
+        answers: [
+            "1. Answer 1", "2. Answer 2", "3. Answer 3", "4. Answer 4", "5. Answer 5"
+        ]
+    },
+    question5: {
+        title: "Question 5",
+        answers: [
+            "1. Answer 1", "2. Answer 2", "3. Answer 3", "4. Answer 4", "5. Answer 5"
+        ]
+    },
+}
+
 let startQuiz = function() {
-    let newSection;
-    let newDiv;
     let mainBody = document.querySelector("main");
     // Remove title elements from the main section.
     while(mainBody.firstChild) {
         mainBody.removeChild(mainBody.firstChild);
     }
 
+    // Define variables once to make them available throughout the function.
+    let newSection;
+    let newDiv;
     // Add quiz content to the main section.
     for(let i = 0; i < 3; i++) {
         if(i === 0) {
@@ -52,12 +88,11 @@ let startQuiz = function() {
             newDiv.appendChild(btn3);
             newDiv.appendChild(btn4);
 
-
         } else if(i === 2) {
             // Create third section of quiz that states if the answer was correct or not.
             newSection = document.createElement("section");
             newSection.className = "feedbackSection";
-
+            // Create element for answer feedback.
             let feedbackHeader = document.createElement("h2");
             feedbackHeader.textContent = "Correct!";
             newSection.appendChild(feedbackHeader);
