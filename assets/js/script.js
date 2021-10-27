@@ -2,6 +2,12 @@ let startQuiz = function() {
     let newSection;
     let newDiv;
     let mainBody = document.querySelector("main");
+    // Remove title elements from the main section.
+    while(mainBody.firstChild) {
+        mainBody.removeChild(mainBody.firstChild);
+    }
+
+    // Add quiz content to the main section.
     for(let i = 0; i < 3; i++) {
         if(i === 0) {
             // Create first section of quiz that contains the question.
@@ -60,4 +66,4 @@ let startQuiz = function() {
     }
 }
 
-startQuiz();
+document.querySelector(".startQuiz").addEventListener("click", startQuiz);

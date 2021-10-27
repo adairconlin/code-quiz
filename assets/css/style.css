@@ -57,6 +57,34 @@ nav h3 {
     color: var(--tea-green);
 }
 
+/* TITLE PAGE STYLING */
+.quizTitle {
+    justify-content: center;
+}
+
+p {
+    color: var(--swamp-green);
+    font-size: 36px;
+    text-align: center;
+    margin: 25px 0;
+}
+
+button {
+    margin: 10px 0;
+    background: var(--dark-green);
+    color: var(--swamp-green);
+    border: none;
+    font-size: 1.8vw;
+    padding: 15px;
+    border-radius: 10px;
+    transition: .5s ease;
+}
+
+button:hover {
+    background-color: var(--accent-pink);
+    color: var(--dark-green);
+}
+
 /* QUESTION STYLING */
 main section h1 {
     font-size: 2.5vw;
@@ -82,21 +110,8 @@ main section h1 {
 }
 
 .answerDiv button {
-    margin: 10px 0;
-    background: var(--dark-green);
-    color: var(--swamp-green);
-    border: none;
     text-align: left;
-    font-size: 1.8vw;
-    padding: 15px;
     padding-left: 25px;
-    border-radius: 10px;
-    transition: .5s ease;
-}
-
-.answerDiv button:hover {
-    background-color: var(--accent-pink);
-    color: var(--dark-green);
 }
 
 /* FEEDBACK STYLING */
