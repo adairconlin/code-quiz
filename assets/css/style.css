@@ -1,3 +1,113 @@
+/* DEFAULT STYLES FOR PAGE */
+:root {
+    --vintage-brown: #DCC3A0;
+    --dark-green: #485633;
+    --swamp-green: #9BA67B;
+    --tea-green: #D0DDC1;
+    --accent-pink: #CC828B;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* GENERAL STYLES */
 body {
-    background-color: black;
+    background-color: var(--vintage-brown);
+    font-family: 'Roboto', sans-serif;
+}
+
+header {
+    background-color: var(--dark-green)
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 40px 90px 20px 90px;
+}
+
+main {
+    margin: 100px 20vw;
+}
+
+section {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* HEADER */
+nav h3 {
+    font-size: 24px;
+}
+
+.highscores {
+    color: var(--accent-pink);
+    transition: .5s ease;
+}
+
+.highscores:hover {
+    color: var(--tea-green);
+}
+
+.timer {
+    color: var(--tea-green);
+}
+
+/* QUESTION STYLING */
+main section h1 {
+    font-size: 2.5vw;
+    color: var(--dark-green);
+}
+
+.questionSection {
+    display: flex;
+    justify-content: start;
+}
+
+.questionSection h1 {
+    text-align: left;
+}
+
+/* ANSWER STYLING */
+.answerDiv {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 40%;
+    margin: 20px 0;
+}
+
+.answerDiv button {
+    margin: 10px 0;
+    background: var(--dark-green);
+    color: var(--swamp-green);
+    border: none;
+    text-align: left;
+    font-size: 1.8vw;
+    padding: 15px;
+    padding-left: 25px;
+    border-radius: 10px;
+    transition: .5s ease;
+}
+
+.answerDiv button:hover {
+    background-color: var(--accent-pink);
+    color: var(--dark-green);
+}
+
+/* FEEDBACK STYLING */
+.feedbackSection {
+    margin-top: 20px;
+    border-top: 3px solid var(--accent-pink);
+}
+
+.feedbackSection h2 {
+    color: var(--accent-pink);
+    font-size: 1.5vw;
+    font-style: italic;
+    margin-top: 20px;
 }
