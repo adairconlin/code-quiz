@@ -1,4 +1,5 @@
 let mainBody = document.querySelector("main");
+let timeCount = 50;
 let currentSlide = 1;
 let questionObj = {
     question1: {
@@ -62,6 +63,13 @@ let addEndGameScreen = function() {
     endPara.textContent = "Your final score is: ";
     endSection.appendChild(endPara);
 
+    let scoreText = document.createElement("span");
+    scoreText.textContent = timeCount;
+    endPara.appendChild(scoreText);
+
+    let timer = document.querySelector("span");
+    timer.textContent = scoreText.textContent;
+
     let nameForm = document.createElement("form");
     endSection.appendChild(nameForm);
 
@@ -70,6 +78,7 @@ let addEndGameScreen = function() {
     formLabel.textContent = "Enter your name: ";
     nameForm.appendChild(formLabel);
 
+    // Add both input elements to form.
     for(let i = 0; i < 2; i++) {
         let formInput = document.createElement("input");
         if(i === 0) {
@@ -118,28 +127,28 @@ let loadQuestion = function() {
 
 // Load the new question and corresponding answers.
 let loadQA = function() {
-    currentSlide++;
-    console.log(currentSlide);
     if(currentSlide <= Object.keys(questionObj).length) {
         loadAnswers();
         let question = document.querySelector(".question");
         question.textContent = loadQuestion();
+        currentSlide++;
     } else {
+        // Increment currentSlide value once more so that startTimer() will exectue clearInterval(timerFunction).
+        currentSlide++
         endGame();
     }
 };
 
 // Start timer when quiz begins.
 let startTimer = function() {
-    let timer = document.querySelector(".timer");
-    let timeCount = 3;
+    let timer = document.querySelector("span");
     let timerFunction = setInterval(function() {
-        if(timeCount > 0) {
-            timer.textContent = "Timer: " + timeCount;
+        if(timeCount > 0 && currentSlide < 7) {
             timeCount--;
+            timer.textContent = timeCount;
         } else {
             clearInterval(timerFunction);
-            timer.textContent = "Timer: " + timeCount;
+            timer.textContent = timeCount;
             endGame();
         }
     }, 1000);
@@ -167,7 +176,7 @@ let addAnswerSection = function() {
     for(let i = 1; i < 5; i++) {
         let btn = document.createElement("button");
         btn.className = "answers";
-        btn.textContent = questionObj.question1.answers[i - 1];
+        //btn.textContent = questionObj.question1.answers[i - 1];
         newDiv.appendChild(btn);
     };
     loadAnswers();
@@ -186,7 +195,7 @@ let addQuestionSection = function() {
     // Create question header.
     let questionHeader = document.createElement("h1");
     questionHeader.className = "question";
-    questionHeader.textContent = loadQuestion();
+    //questionHeader.textContent = loadQuestion();
     newDiv.appendChild(questionHeader);
 };
 
@@ -206,8 +215,10 @@ let startQuiz = function() {
         }
         mainBody.appendChild(newSection);
     }
+    // Loads the Question and Answer slides
+    loadQA();
 
-    // Add event listener to load new question on each user click.
+    // Add event listener to load new Question and Answer slides on each user click.
     let answerButtons = document.querySelectorAll(".answers");
     answerButtons.forEach(btn => {
         btn.addEventListener("click", loadQA);
