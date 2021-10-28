@@ -32,9 +32,57 @@ let currentQuestion = {
     },
 }
 
-let startTimer = function() {
+// Remove title elements from the main section.
+let clearMain = function(mainBody) {
+    while(mainBody.firstChild) {
+        mainBody.removeChild(mainBody.firstChild);
+    } 
+};
+
+let addEndGameScreen = function(mainBody) {
+    let endSection = document.createElement("section");
+    endSection.className = "endTitle";
+    mainBody.appendChild(endSection);
+
+    let endTitle = document.createElement("h1");
+    endTitle.textContent = "All Done!"
+    endSection.appendChild(endTitle);
+
+    let endPara = document.createElement("p");
+    endPara.textContent = "Your final score is: ";
+    endSection.appendChild(endPara);
+
+    let nameForm = document.createElement("form");
+    endSection.appendChild(nameForm);
+
+    let formLabel = document.createElement("label");
+    formLabel.setAttribute("for", "nameInput");
+    formLabel.textContent = "Enter your name: ";
+    nameForm.appendChild(formLabel);
+
+    for(let i = 0; i < 2; i++) {
+        let formInput = document.createElement("input");
+        if(i === 0) {
+            formInput.setAttribute("type", "text");
+            formInput.id = "nameInput";
+        } else if (i === 1) {
+            formInput.setAttribute("type", "submit");
+            formInput.setAttribute("value", "submit");
+        }
+        nameForm.appendChild(formInput);
+    }
+}
+
+// Show end game screen for user to see their score.
+let endGame = function(mainBody) {
+    clearMain(mainBody);
+    addEndGameScreen(mainBody);
+}
+
+// Start timer when quiz begins.
+let startTimer = function(mainBody) {
     let timer = document.querySelector(".timer");
-    let timeCount = 9;
+    let timeCount = 3;
     let timerFunction = setInterval(function() {
         if(timeCount > 0) {
             timer.textContent = "Timer: " + timeCount;
@@ -42,6 +90,7 @@ let startTimer = function() {
         } else {
             clearInterval(timerFunction);
             timer.textContent = "Timer: " + timeCount;
+            endGame(mainBody);
         }
     }, 1000);
 }
@@ -58,7 +107,6 @@ let addFeedbackSection = function() {
 
 // Create second section of quiz that contains answer choices.
 let addAnswerSection = function() {
-    newSection = document.createElement("section");
     newSection.className = "answerSection";
     // Create div that holds the answer buttons.
     newDiv = document.createElement("div");
@@ -91,11 +139,7 @@ let addQuestionSection = function() {
 
 let startQuiz = function() {
     let mainBody = document.querySelector("main");
-    // Remove title elements from the main section.
-    while(mainBody.firstChild) {
-        mainBody.removeChild(mainBody.firstChild);
-    }
-
+    clearMain(mainBody);
     // Add quiz content to the main section.
     for(let i = 0; i < 3; i++) {
         if(i === 0) {
@@ -110,8 +154,7 @@ let startQuiz = function() {
         }
         mainBody.appendChild(newSection);
     }
-
-    startTimer();
+    startTimer(mainBody);
 }
 
 document.querySelector(".startQuiz").addEventListener("click", startQuiz);
