@@ -2,33 +2,33 @@ let mainBody = document.querySelector("main");
 let currentSlide = 1;
 let questionObj = {
     question1: {
-        title: "Question 1",
+        title: "Is JavaScript a statically typed or dynamically typed language?",
         answers: [
-            "1. Answer 1", "2. Answer 2", "3. Answer 3", "4. Answer 4", "5. Answer 5"
+            "Both", "Statically typed", "Dynamically typed", "Neither",
         ]
     },
     question2: {
-        title: "Question 2",
+        title: "Which is an example of an Immediately Invoked Function (IIF)?",
         answers: [
-            "1. Answer 1", "2. Answer 2", "3. Answer 3", "4. Answer 4", "5. Answer 5"
+            "let myFunc = function() {};", "function() {};", "(function() {})();", "(function() {});",
         ]
     },
     question3: {
-        title: "Question 3",
+        title: "Which property is on the very outside of the CSS Box Model?",
         answers: [
-            "1. Answer 1", "2. Answer 2", "3. Answer 3", "4. Answer 4", "5. Answer 5"
+            "Padding", "Border", "Margin", "Content",
         ]
     },
     question4: {
-        title: "Question 4",
+        title: "Which method removes the last element from an array and also returns that same element?",
         answers: [
-            "1. Answer 1", "2. Answer 2", "3. Answer 3", "4. Answer 4", "5. Answer 5"
+            "array.concat()", "array.push()", "array.pop()", "array.indexOf()",
         ]
     },
     question5: {
-        title: "Question 5",
+        title: "Which is not a valid data type in JavaScript?",
         answers: [
-            "1. Answer 1", "2. Answer 2", "3. Answer 3", "4. Answer 4", "5. Answer 5"
+            "Boolean", "Number", "float", "Undefined",
         ]
     },
 };
@@ -83,23 +83,45 @@ let addEndGameScreen = function() {
     }
 };
 
+// Randomizes both element id's and textContent based on the given currentSlide.
 let loadAnswers = function() {
+    let answerButtons = document.querySelector(".answerDiv").children;
+    let arr = [];
+    let x;
+    for(let i = 0; i < answerButtons.length; i++) {
+        let randomize = function() {
+            x = Math.floor(Math.random() * answerButtons.length) + 1;
+            if(arr.indexOf(x) >= 0) {
+                return randomize();
+            };
+            return x;
+        };
+        arr.push(randomize());
+    };
 
+    for(let i = 0; i < answerButtons.length; i++) {
+        answerButtons[i].id = "answer" + arr[i];
+        let q = "question" + currentSlide;
+        let x = arr[i] - 1;
+
+        answerButtons[i].textContent = questionObj[q].answers[x];
+    }
 };
 
 // Grabs current question from questionObj based on the currentSlide value.
 let loadQuestion = function() {
-    let test = "question" + currentSlide;
-    let currentQuestion = questionObj[test].title;
-    console.log(Object.keys(questionObj).length);
-    currentSlide++;
+    let q = "question" + currentSlide;
+    let currentQuestion = questionObj[q].title;
 
     return currentQuestion;
 };
 
 // Load the new question and corresponding answers.
 let loadQA = function() {
+    currentSlide++;
+    console.log(currentSlide);
     if(currentSlide <= Object.keys(questionObj).length) {
+        loadAnswers();
         let question = document.querySelector(".question");
         question.textContent = loadQuestion();
     } else {
@@ -142,23 +164,25 @@ let addAnswerSection = function() {
     newSection.appendChild(newDiv);
 
     // Create each button dynamically with a for loop.
-    for(let i = 1; i < 6; i++) {
+    for(let i = 1; i < 5; i++) {
         let btn = document.createElement("button");
-        btn.id = "answer" + i;
         btn.className = "answers";
         btn.textContent = questionObj.question1.answers[i - 1];
         newDiv.appendChild(btn);
-    }
+    };
+    loadAnswers();
 };
 
 // Create first section of quiz that contains the question.
 let addQuestionSection = function() {
     newSection = document.createElement("section");
     newSection.className = "questionSection";
+
     // Create div that holds the question header.
     let newDiv = document.createElement("div");
     newDiv.className = "questionDiv";
     newSection.appendChild(newDiv);
+
     // Create question header.
     let questionHeader = document.createElement("h1");
     questionHeader.className = "question";
@@ -188,9 +212,9 @@ let startQuiz = function() {
     answerButtons.forEach(btn => {
         btn.addEventListener("click", loadQA);
     });
-    
+
     // Start quiz timer.
-    //startTimer(mainBody);
+    startTimer(mainBody);
 };
 
 document.querySelector(".startQuiz").addEventListener("click", startQuiz);
