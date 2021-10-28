@@ -96,37 +96,38 @@ let addEndGameScreen = function() {
 let loadAnswers = function() {
     let answerButtons = document.querySelector(".answerDiv").children;
     let arr = [];
-    let x;
+    let num;
     for(let i = 0; i < answerButtons.length; i++) {
         let randomize = function() {
-            x = Math.floor(Math.random() * answerButtons.length) + 1;
-            if(arr.indexOf(x) >= 0) {
+            num = Math.floor(Math.random() * answerButtons.length) + 1;
+            if(arr.indexOf(num) >= 0) {
                 return randomize();
             };
-            return x;
+            return num;
         };
         arr.push(randomize());
     };
 
     for(let i = 0; i < answerButtons.length; i++) {
         answerButtons[i].id = "answer" + arr[i];
-        let q = "question" + currentSlide;
-        let x = arr[i] - 1;
+        let questionKey = "question" + currentSlide;
+        let val = arr[i] - 1;
 
-        answerButtons[i].textContent = questionObj[q].answers[x];
+        answerButtons[i].textContent = questionObj[questionKey].answers[val];
     }
 };
 
 // Grabs current question from questionObj based on the currentSlide value.
 let loadQuestion = function() {
-    let q = "question" + currentSlide;
-    let currentQuestion = questionObj[q].title;
+    let questionKey = "question" + currentSlide;
+    let currentQuestion = questionObj[questionKey].title;
 
     return currentQuestion;
 };
 
 // Load the new question and corresponding answers.
 let loadQA = function() {
+    // Check to make sure the value of currentSlide has not gone over the max amount of available questions.
     if(currentSlide <= Object.keys(questionObj).length) {
         loadAnswers();
         let question = document.querySelector(".question");
@@ -134,7 +135,7 @@ let loadQA = function() {
         currentSlide++;
     } else {
         // Increment currentSlide value once more so that startTimer() will exectue clearInterval(timerFunction).
-        currentSlide++
+        currentSlide++;
         endGame();
     }
 };
@@ -143,6 +144,7 @@ let loadQA = function() {
 let startTimer = function() {
     let timer = document.querySelector("span");
     let timerFunction = setInterval(function() {
+        // Check to make sure the timer hasn't run out and there are still more slides left.
         if(timeCount > 0 && currentSlide < 7) {
             timeCount--;
             timer.textContent = timeCount;
@@ -162,6 +164,8 @@ let addFeedbackSection = function() {
     let feedbackHeader = document.createElement("h2");
     feedbackHeader.textContent = "Correct!";
     newSection.appendChild(feedbackHeader);
+
+    return newSection;
 };
 
 // Create second section of quiz that contains answer choices.
@@ -172,14 +176,16 @@ let addAnswerSection = function() {
     newDiv.className = "answerDiv";
     newSection.appendChild(newDiv);
 
-    // Create each button dynamically with a for loop.
-    for(let i = 1; i < 5; i++) {
+    // Create multiple buttons dynamically with a loop.
+    for(let i = 0; i < 4; i++) {
         let btn = document.createElement("button");
         btn.className = "answers";
-        //btn.textContent = questionObj.question1.answers[i - 1];
         newDiv.appendChild(btn);
     };
+    // Call function to determine and randomize answer content.
     loadAnswers();
+    
+    return newSection;
 };
 
 // Create first section of quiz that contains the question.
@@ -195,35 +201,35 @@ let addQuestionSection = function() {
     // Create question header.
     let questionHeader = document.createElement("h1");
     questionHeader.className = "question";
-    //questionHeader.textContent = loadQuestion();
     newDiv.appendChild(questionHeader);
+
+    return newSection;
 };
 
+// Begin the quiz game.
 let startQuiz = function() {
     clearMain();
-    // Add quiz content to the main section.
+    let newSection;
+    // Add quiz content sections to the main section.
     for(let i = 0; i < 3; i++) {
         if(i === 0) {
-            let newSection;
-            addQuestionSection();
+            newSection = addQuestionSection();
         } else if(i === 1) {
-            let newSection;
-            addAnswerSection();
+            newSection = addAnswerSection();
         } else if(i === 2) {
-            let newSection;
-            addFeedbackSection();
+            newSection = addFeedbackSection();
         }
+        // Add section with className identified in each conditional statement.
         mainBody.appendChild(newSection);
     }
+
     // Loads the Question and Answer slides
     loadQA();
-
     // Add event listener to load new Question and Answer slides on each user click.
     let answerButtons = document.querySelectorAll(".answers");
     answerButtons.forEach(btn => {
         btn.addEventListener("click", loadQA);
     });
-
     // Start quiz timer.
     startTimer(mainBody);
 };
