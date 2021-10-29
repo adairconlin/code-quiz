@@ -1,6 +1,7 @@
 let mainBody = document.querySelector("main");
 let timeCount = 70;
 let currentSlide = 1;
+let scoreArr;
 let questionObj = {
     question1: {
         title: "Is JavaScript a statically typed or dynamically typed language?",
@@ -44,7 +45,10 @@ let clearMain = function() {
 // Load high score page based on local storage data.
 let loadHighScorePage = function(userName) {
     clearMain();
-    let userScore = JSON.parse(localStorage.getItem(userName));
+    let userScore = (localStorage.getItem(userName));
+    let splitScore = userScore.split(",");
+    let scoreArr = [];
+    scoreArr = scoreArr.concat(splitScore);
 
     let newSection = document.createElement("section");
     mainBody.appendChild(newSection);
@@ -53,27 +57,38 @@ let loadHighScorePage = function(userName) {
     scoreTitle.textContent = "Your highscores:";
     newSection.appendChild(scoreTitle);
 
-    let scorePara = document.createElement("p");
-    scorePara.className = "scorePara";
-    scorePara.textContent = userName + ": " + userScore; 
-    newSection.appendChild(scorePara);
-}
+    let scoreDiv = document.createElement("div");
+    newSection.appendChild(scoreDiv);
+
+    for(let i = 0; i < scoreArr.length; i++) {
+        let scorePara = document.createElement("p");
+        scorePara.className = "scorePara";
+        scorePara.textContent = userName + ": " + scoreArr[i]; 
+       scoreDiv.insertBefore(scorePara, scoreDiv.firstChild);
+    }
+};
 
 // Save score if it's the users highest score yet.
 let storeScores = function() {
     let userScore = document.querySelector("span").textContent;
     let userName = document.querySelector("#nameInput").value;
 
-    let highScore = JSON.parse(localStorage.getItem(userName));
-    highScore = parseInt(highScore);
-    userScore = parseInt(userScore);
-
-    if(highScore > userScore) {
-        loadHighScorePage(userName);
-    } else if (highScore < userScore) {
-       localStorage.setItem(userName, JSON.stringify(userScore));
-       loadHighScorePage(userName);
-    };
+    if(localStorage.getItem(userName) === "undefined" || localStorage.getItem(userName) === null) {
+        localStorage.setItem(userName, userScore);
+    } else {
+        let arr = [];
+        let currentVal = localStorage.getItem(userName);
+        let splitVal = currentVal.split(",")
+        arr = arr.concat(splitVal);
+        
+        if(arr.indexOf(userScore) > 0) {
+        } else {
+            arr.push(userScore);
+            arr.sort();
+            localStorage.setItem(userName, arr);
+        }       
+    }
+    loadHighScorePage(userName);
 };
 
 // Dynamically load end game screen.
@@ -303,3 +318,6 @@ let startQuiz = function() {
 };
 
 document.querySelector(".startQuiz").addEventListener("click", startQuiz);
+
+// This will eventually print out all high scores of every
+// document.querySelector(".highscores").addEventListener("click", loadHighScorePage);

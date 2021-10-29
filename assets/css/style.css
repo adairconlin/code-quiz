@@ -181,4 +181,10 @@ input[type="submit"]:hover {
     color: var(--accent-pink);
     text-align: left;
     padding: 10px;
+    margin: 5px 0;
+    transition: .5s ease;
+}
+
+.scorePara:hover {
+    background-color: var(--tea-green);
 }
