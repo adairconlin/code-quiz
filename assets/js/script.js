@@ -34,19 +34,11 @@ let questionObj = {
     },
 };
 
-// Remove title elements from the main section.
+// Remove elements from the main section.
 let clearMain = function() {
     while(mainBody.firstChild) {
         mainBody.removeChild(mainBody.firstChild);
     } 
-};
-
-// Show end game screen for user to see their score.
-let endGame = function() {
-    // Clear elements from main.
-    clearMain();
-    // Call function to load elements on main.
-    addEndGameScreen();
 };
 
 // Dynamically load end game screen.
@@ -92,6 +84,35 @@ let addEndGameScreen = function() {
     }
 };
 
+// Show end game screen for user to see their score.
+let endGame = function() {
+    // Clear elements from main.
+    clearMain();
+    // Call function to load elements on main.
+    addEndGameScreen();
+};
+
+// Check users answer when they select one, then provide feedback.
+let checkAnswer = function() {
+    let answerButtons = document.querySelectorAll(".answers");
+    let feedbackHeader = document.querySelector("#feedback");
+    // Adds an event listener to every button with the class name of "answers".
+    answerButtons.forEach(btn => {
+        // Without differentiating "mousedown" and "mouseup" between these event listeners,
+        // the "currentTarget" method would not return the correct current value.
+        btn.addEventListener("mousedown", function(event) {
+            if(event.currentTarget.id === "answer3") {
+                feedbackHeader.textContent = "Correct!";
+            } else {
+                feedbackHeader.textContent = "Wrong!";
+                timeCount = timeCount - 10;
+            }
+        })
+        // After checking the users answer, the next questions and answers will load.
+        btn.addEventListener("mouseup", loadQA);
+    })
+};
+
 // Randomizes both element id's and textContent based on the given currentSlide.
 let loadAnswers = function() {
     let answerButtons = document.querySelector(".answerDiv").children;
@@ -99,20 +120,29 @@ let loadAnswers = function() {
     let num;
     for(let i = 0; i < answerButtons.length; i++) {
         let randomize = function() {
+            // Give a random value to num that is between 1 and the length of
+            // the amount of children, or answer choices, for each slide.
             num = Math.floor(Math.random() * answerButtons.length) + 1;
+            // Check each random number; If that number has already been chosen,
+            // run the randomize function again to find a unique one.
             if(arr.indexOf(num) >= 0) {
                 return randomize();
             };
             return num;
         };
+        // Add the unique randomized num to the array.
         arr.push(randomize());
     };
 
+    // Loop through array and give each answer button a unique id name with
+    // the corresponding number from the arr[]. This will randomize the order 
+    // of questions each time you play.
     for(let i = 0; i < answerButtons.length; i++) {
         answerButtons[i].id = "answer" + arr[i];
+        // Determine which answer values to grab and display based on the
+        // indivdual buttons assigned id.
         let questionKey = "question" + currentSlide;
         let val = arr[i] - 1;
-
         answerButtons[i].textContent = questionObj[questionKey].answers[val];
     }
 };
@@ -129,9 +159,9 @@ let loadQuestion = function() {
 let loadQA = function() {
     // Check to make sure the value of currentSlide has not gone over the max amount of available questions.
     if(currentSlide <= Object.keys(questionObj).length) {
-        loadAnswers();
         let question = document.querySelector(".question");
         question.textContent = loadQuestion();
+        loadAnswers();
         currentSlide++;
     } else {
         // Increment currentSlide value once more so that startTimer() will exectue clearInterval(timerFunction).
@@ -162,7 +192,7 @@ let addFeedbackSection = function() {
     newSection.className = "feedbackSection";
     // Create element for answer feedback.
     let feedbackHeader = document.createElement("h2");
-    feedbackHeader.textContent = "Correct!";
+    feedbackHeader.id = "feedback";
     newSection.appendChild(feedbackHeader);
 
     return newSection;
@@ -222,14 +252,10 @@ let startQuiz = function() {
         // Add section with className identified in each conditional statement.
         mainBody.appendChild(newSection);
     }
-
-    // Loads the Question and Answer slides
+    // Loads the Question and Answer slides.
     loadQA();
-    // Add event listener to load new Question and Answer slides on each user click.
-    let answerButtons = document.querySelectorAll(".answers");
-    answerButtons.forEach(btn => {
-        btn.addEventListener("click", loadQA);
-    });
+    // Check users answer choice.
+    checkAnswer();
     // Start quiz timer.
     startTimer(mainBody);
 };
