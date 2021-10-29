@@ -42,6 +42,7 @@ let clearMain = function() {
     } 
 };
 
+// Grab array of users score and place them into an array that is returned.
 let splitStorage = function(userName) {
     let userScore = localStorage.getItem(userName);
     let splitScore = userScore.split(",");
@@ -51,8 +52,10 @@ let splitStorage = function(userName) {
     return scoreArr;
 };
 
+// Allow user to clear their score data.
 let deleteHistory = function(userName) {
     localStorage.removeItem(userName);
+    // Remove the paragraph elements that display the users scores.
     let scores = document.querySelectorAll("p");
     let deleteBtn = document.querySelector("#deleteBtn");
     scores.forEach(para => {
@@ -64,6 +67,7 @@ let deleteHistory = function(userName) {
     deleteAlert.textContent = "Your score history has been cleared."
 };
 
+// Load page to show all highscores of local users.
 let loadTotalScores = function() {
     clearMain();
     let newSection = document.createElement("section");
@@ -73,9 +77,15 @@ let loadTotalScores = function() {
     scoreTitle.textContent = "Total highscores:";
     newSection.appendChild(scoreTitle);
 
+    // Loop through all users that have local data and display 
+    // each users highest score with their name.
     for(let i = 0; i < localStorage.length; i++) {
+        // I didn't originally know how to get keys and their values this way
+        // source: https://stackoverflow.com/questions/8419354/get-html5-localstorage-keys
         let keyName = localStorage.key(i);
         let itemNames = splitStorage(keyName);
+        // This value will represent the very palcement of the
+        // last score in the array, aka the highscore of the user
         let highScore = itemNames.length - 1;
         
         let scorePara = document.createElement("p");
@@ -85,7 +95,7 @@ let loadTotalScores = function() {
     }
 }
 
-// Load high score page based on local storage data.
+// Load highscore page based on local storage data.
 let loadHighScorePage = function(userName) {
     clearMain();
     let scoreArr  = splitStorage(userName);
@@ -100,13 +110,17 @@ let loadHighScorePage = function(userName) {
     let scoreDiv = document.createElement("div");
     newSection.appendChild(scoreDiv);
 
+    // Go through each item of the users corresponding key from localStorage.
     for(let i = 0; i < scoreArr.length; i++) {
         let scorePara = document.createElement("p");
         scorePara.className = "scorePara";
         scorePara.textContent = userName + ": " + scoreArr[i]; 
+        // ".insertBefore()" will insure the scores appear from highest to lowest,
+        // since the array is sorted from lowest to highest.
         scoreDiv.insertBefore(scorePara, scoreDiv.firstChild);
     }
 
+    // Create button to allow users to delete their score history.
     let deleteBtn = document.createElement("button");
     deleteBtn.id = "deleteBtn";
     deleteBtn.textContent = "Delete Score History";
@@ -116,6 +130,7 @@ let loadHighScorePage = function(userName) {
         deleteHistory(userName);
     })
 
+    // Create a button to allow users to play again without refreshing the page.
     let playButton = document.createElement("button");
     playButton.id = "playBtn";
     playButton.textContent = "Play Again";
@@ -131,15 +146,20 @@ let storeScores = function() {
     let userScore = document.querySelector("span").textContent;
     let userName = document.querySelector("#nameInput").value;
 
+    // Determines if there are any scores in storage for the current user.
     if(localStorage.getItem(userName) === "undefined" || localStorage.getItem(userName) === null) {
         localStorage.setItem(userName, userScore);
     } else {
+        // If there are stored scores, then the scores need to be 
+        // grabbed and re-stored with splitStorage().
         let arr = splitStorage(userName);
-        
+        // Check to make sure there are no repeated score values.
         if(arr.indexOf(userScore) > 0) {
         } else {
             arr.push(userScore);
+            // Sort the scores in order within the array.
             arr.sort();
+            // Store new array of the users multiple scores.
             localStorage.setItem(userName, arr);
         }       
     }
