@@ -76,6 +76,10 @@ let loadTotalScores = function() {
     let scoreTitle = document.createElement("h1");
     scoreTitle.textContent = "Total highscores:";
     newSection.appendChild(scoreTitle);
+    // If there are no high scores, the h1 element will say so.
+    if(localStorage.length === 0) {
+        scoreTitle.textContent = "No high scores yet.";
+    }
 
     // Loop through all users that have local data and display 
     // each users highest score with their name.
@@ -92,8 +96,17 @@ let loadTotalScores = function() {
         scorePara.className = "scorePara";
         scorePara.textContent = keyName + ": " + itemNames[highScore]; 
         newSection.appendChild(scorePara);
-    }
-}
+        }
+    
+    let returnBtn = document.createElement("button");
+    returnBtn.id = "returnBtn";
+    returnBtn.textContent = "Play Game";
+    newSection.appendChild(returnBtn);
+
+    document.querySelector("#returnBtn").addEventListener("click", function() {
+        startQuiz();
+    })
+};
 
 // Load highscore page based on local storage data.
 let loadHighScorePage = function(userName) {
@@ -192,7 +205,7 @@ let addEndGameScreen = function() {
 
     let formLabel = document.createElement("label");
     formLabel.setAttribute("for", "nameInput");
-    formLabel.textContent = "Enter your name: ";
+    formLabel.textContent = "Enter your initials: ";
     nameForm.appendChild(formLabel);
 
     // Add both input elements to form.
