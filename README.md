@@ -1,11 +1,11 @@
 # Code Quiz
 Code Quiz is a dynamically loaded quiz game that locally stores data. Multiple users can save their scores on a single browser and compare their high scores at the end. Every element after the header, which displays "View Highscores" and "Time Count", loads dynamically from the JavaScript code. 
 
-To accomplish the requirements of this challenge, I worked a lot with HTML DOM Methods and storing local storage with JavaScript. The biggest challenge of this project was dealing with the localStorage method in such depth for the first time. In this project, I used a mix of storing and getting storages with dynamically changing variables. Another part I found challenge was dynamically loading the questions and answers from an object. 
+To accomplish the requirements of this challenge, I worked a lot with HTML DOM Methods and storing local storage with JavaScript. The biggest challenge of this project was dealing with the localStorage method in such depth for the first time. I used a mix of locally storing and getting locally stored data values with dynamically changing variables. Another part I found challenge was dynamically loading the questions and randomized answers from an object. 
 
-One personal challenge I gave myself was to avoid hard-coding variables and instead create functions that include variables that can be changed. An example of this is within in `loadAnswers()` function. Within this function, I set the condition as `i < answerButtons.length;`. Instead of hard-coding the amount of answers I wrote for each question, I set the condition to be based on the amount of answers there are. This is so that if anyone wanted to add more buttons, you wouldn't have to change the function. I tried to maintain this mindset while writing all of my functions.
+One personal challenge I gave myself was to avoid hard-coding variables and instead create functions that include variables that can be changed. An example of this is within `loadAnswers()` function. Within this function, I set the condition as `i < answerButtons.length;`. Instead of hard-coding the amount of answers I wrote for each question, I set the condition to be based on the amount of answers there are. This is so that if anyone wanted to add more buttons, you wouldn't have to change the function. I tried to maintain this mindset while writing all of my functions.
 
-Overall, I became a lot more comfortable working between functions, with `localStorage()` methods, and with dynamically changing variables.
+Overall, I became a lot more comfortable working between functions, with `localStorage()` methods, and with dynamically changing variables. I will eventually go back and reduce repeated code, as well as try to reduce the amount of global variables I created.
 
 # Playing The Game
 ### If you would like to interact with the project yourself, visit [here](https://adairconlin.art/code-quiz/).
