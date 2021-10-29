@@ -64,6 +64,27 @@ let deleteHistory = function(userName) {
     deleteAlert.textContent = "Your score history has been cleared."
 };
 
+let loadTotalScores = function() {
+    clearMain();
+    let newSection = document.createElement("section");
+    mainBody.appendChild(newSection);
+
+    let scoreTitle = document.createElement("h1");
+    scoreTitle.textContent = "Total highscores:";
+    newSection.appendChild(scoreTitle);
+
+    for(let i = 0; i < localStorage.length; i++) {
+        let keyName = localStorage.key(i);
+        let itemNames = splitStorage(keyName);
+        let highScore = itemNames.length - 1;
+        
+        let scorePara = document.createElement("p");
+        scorePara.className = "scorePara";
+        scorePara.textContent = keyName + ": " + itemNames[highScore]; 
+        newSection.appendChild(scorePara);
+    }
+}
+
 // Load high score page based on local storage data.
 let loadHighScorePage = function(userName) {
     clearMain();
@@ -83,7 +104,7 @@ let loadHighScorePage = function(userName) {
         let scorePara = document.createElement("p");
         scorePara.className = "scorePara";
         scorePara.textContent = userName + ": " + scoreArr[i]; 
-       scoreDiv.insertBefore(scorePara, scoreDiv.firstChild);
+        scoreDiv.insertBefore(scorePara, scoreDiv.firstChild);
     }
 
     let deleteBtn = document.createElement("button");
