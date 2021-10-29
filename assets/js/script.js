@@ -42,6 +42,19 @@ let clearMain = function() {
     } 
 };
 
+let deleteHistory = function(userName) {
+    localStorage.removeItem(userName);
+    let scores = document.querySelectorAll("p");
+    let deleteBtn = document.querySelector("#deleteBtn");
+    scores.forEach(para => {
+        para.remove();
+        deleteBtn.remove();
+    });
+
+    let deleteAlert = document.querySelector("h1");
+    deleteAlert.textContent = "Your score history has been cleared."
+};
+
 // Load high score page based on local storage data.
 let loadHighScorePage = function(userName) {
     clearMain();
@@ -66,6 +79,24 @@ let loadHighScorePage = function(userName) {
         scorePara.textContent = userName + ": " + scoreArr[i]; 
        scoreDiv.insertBefore(scorePara, scoreDiv.firstChild);
     }
+
+    let deleteBtn = document.createElement("button");
+    deleteBtn.id = "deleteBtn";
+    deleteBtn.textContent = "Delete Score History";
+    scoreDiv.appendChild(deleteBtn);
+
+    document.querySelector("#deleteBtn").addEventListener("click", function() {
+        deleteHistory(userName);
+    })
+
+    let playButton = document.createElement("button");
+    playButton.id = "playBtn";
+    playButton.textContent = "Play Again";
+    scoreDiv.appendChild(playButton);
+
+    document.querySelector("#playBtn").addEventListener("click", function() {
+        startQuiz();
+    })
 };
 
 // Save score if it's the users highest score yet.
@@ -230,6 +261,7 @@ let loadQA = function() {
 // Start timer when quiz begins.
 let startTimer = function() {
     let timer = document.querySelector("span");
+    timeCount = 70;
     let timerFunction = setInterval(function() {
         // Check to make sure the timer hasn't run out and there are still more slides left.
         if(timeCount > 0 && currentSlide < 7) {
@@ -296,6 +328,8 @@ let addQuestionSection = function() {
 // Begin the quiz game.
 let startQuiz = function() {
     clearMain();
+    currentSlide = 1;
+
     let newSection;
     // Add quiz content sections to the main section.
     for(let i = 0; i < 3; i++) {

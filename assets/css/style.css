@@ -188,3 +188,19 @@ input[type="submit"]:hover {
 .scorePara:hover {
     background-color: var(--tea-green);
 }
+
+#deleteBtn {
+    float: right;
+    font-size: 15px;
+    color: var(--accent-pink);
+}
+
+#deleteBtn:hover {
+    background-color: var(--tea-green);
+}
+
+#playBtn {
+    float: center;
+    font-size: 18px;
+    margin-right: 5px;
+}
