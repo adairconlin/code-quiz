@@ -1,5 +1,5 @@
 let mainBody = document.querySelector("main");
-let timeCount = 70;
+let timeCount = 60;
 let currentSlide = 1;
 let scoreArr;
 let questionObj = {
@@ -42,6 +42,15 @@ let clearMain = function() {
     } 
 };
 
+let splitStorage = function(userName) {
+    let userScore = localStorage.getItem(userName);
+    let splitScore = userScore.split(",");
+    let scoreArr = [];
+    scoreArr = scoreArr.concat(splitScore);
+
+    return scoreArr;
+};
+
 let deleteHistory = function(userName) {
     localStorage.removeItem(userName);
     let scores = document.querySelectorAll("p");
@@ -58,10 +67,7 @@ let deleteHistory = function(userName) {
 // Load high score page based on local storage data.
 let loadHighScorePage = function(userName) {
     clearMain();
-    let userScore = (localStorage.getItem(userName));
-    let splitScore = userScore.split(",");
-    let scoreArr = [];
-    scoreArr = scoreArr.concat(splitScore);
+    let scoreArr  = splitStorage(userName);
 
     let newSection = document.createElement("section");
     mainBody.appendChild(newSection);
@@ -107,10 +113,7 @@ let storeScores = function() {
     if(localStorage.getItem(userName) === "undefined" || localStorage.getItem(userName) === null) {
         localStorage.setItem(userName, userScore);
     } else {
-        let arr = [];
-        let currentVal = localStorage.getItem(userName);
-        let splitVal = currentVal.split(",")
-        arr = arr.concat(splitVal);
+        let arr = splitStorage(userName);
         
         if(arr.indexOf(userScore) > 0) {
         } else {
@@ -329,9 +332,10 @@ let addQuestionSection = function() {
 let startQuiz = function() {
     clearMain();
     currentSlide = 1;
+    timeCount = 70;
 
-    let newSection;
     // Add quiz content sections to the main section.
+    let newSection;
     for(let i = 0; i < 3; i++) {
         if(i === 0) {
             newSection = addQuestionSection();
@@ -354,4 +358,4 @@ let startQuiz = function() {
 document.querySelector(".startQuiz").addEventListener("click", startQuiz);
 
 // This will eventually print out all high scores of every
-// document.querySelector(".highscores").addEventListener("click", loadHighScorePage);
+document.querySelector(".highscores").addEventListener("click", loadTotalScores);
