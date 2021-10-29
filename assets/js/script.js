@@ -318,7 +318,7 @@ let loadQA = function() {
 // Start timer when quiz begins.
 let startTimer = function() {
     let timer = document.querySelector("span");
-    timeCount = 70;
+    timeCount = 60;
     let timerFunction = setInterval(function() {
         // Check to make sure the timer hasn't run out and there are still more slides left.
         if(timeCount > 0 && currentSlide < 7) {
@@ -386,7 +386,7 @@ let addQuestionSection = function() {
 let startQuiz = function() {
     clearMain();
     currentSlide = 1;
-    timeCount = 70;
+    timeCount = 60;
 
     // Add quiz content sections to the main section.
     let newSection;
