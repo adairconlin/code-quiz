@@ -1,5 +1,5 @@
 let mainBody = document.querySelector("main");
-let timeCount = 50;
+let timeCount = 70;
 let currentSlide = 1;
 let questionObj = {
     question1: {
@@ -41,6 +41,41 @@ let clearMain = function() {
     } 
 };
 
+// Load high score page based on local storage data.
+let loadHighScorePage = function(userName) {
+    clearMain();
+    let userScore = JSON.parse(localStorage.getItem(userName));
+
+    let newSection = document.createElement("section");
+    mainBody.appendChild(newSection);
+
+    let scoreTitle = document.createElement("h1");
+    scoreTitle.textContent = "Your highscores:";
+    newSection.appendChild(scoreTitle);
+
+    let scorePara = document.createElement("p");
+    scorePara.className = "scorePara";
+    scorePara.textContent = userName + ": " + userScore; 
+    newSection.appendChild(scorePara);
+}
+
+// Save score if it's the users highest score yet.
+let storeScores = function() {
+    let userScore = document.querySelector("span").textContent;
+    let userName = document.querySelector("#nameInput").value;
+
+    let highScore = JSON.parse(localStorage.getItem(userName));
+    highScore = parseInt(highScore);
+    userScore = parseInt(userScore);
+
+    if(highScore > userScore) {
+        loadHighScorePage(userName);
+    } else if (highScore < userScore) {
+       localStorage.setItem(userName, JSON.stringify(userScore));
+       loadHighScorePage(userName);
+    };
+};
+
 // Dynamically load end game screen.
 let addEndGameScreen = function() {
     let endSection = document.createElement("section");
@@ -79,9 +114,16 @@ let addEndGameScreen = function() {
         } else if (i === 1) {
             formInput.setAttribute("type", "submit");
             formInput.setAttribute("value", "submit");
+            formInput.id = "submit";
         }
         nameForm.appendChild(formInput);
     }
+    // Prevent page re-load when submitting
+    let myForm = document.querySelector("form");
+    myForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+        storeScores();
+    })
 };
 
 // Show end game screen for user to see their score.
