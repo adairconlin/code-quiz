@@ -52,6 +52,7 @@ nav h3 {
 
 .highscores:hover {
     color: var(--tea-green);
+    cursor: pointer;
 }
 
 .timer {
@@ -86,6 +87,7 @@ button {
 button:hover {
     background-color: var(--accent-pink);
     color: var(--dark-green);
+    cursor: pointer;
 }
 
 .startQuiz {
