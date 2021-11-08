@@ -320,6 +320,9 @@ let startTimer = function() {
     let timer = document.querySelector("span");
     timeCount = 60;
     let timerFunction = setInterval(function() {
+        if(timeCount < 0) {
+            timeCount = 0;
+        };
         // Check to make sure the timer hasn't run out and there are still more slides left.
         if(timeCount > 0 && currentSlide < 7) {
             timeCount--;
