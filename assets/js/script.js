@@ -4,33 +4,33 @@ let currentSlide = 1;
 let scoreArr;
 let questionObj = {
     question1: {
-        title: "Is JavaScript a statically typed or dynamically typed language?",
+        title: "Which of these is NOT a water sign?",
         answers: [
-            "Both", "Statically typed", "Dynamically typed", "Neither",
+            "Pisces", "Cancer", "Aquarius", "Scorpio",
         ]
     },
     question2: {
-        title: "Which is an example of an Immediately Invoked Function (IIF)?",
+        title: "Which of these is the term for a house with three or more planets?",
         answers: [
-            "let myFunc = function() {};", "function() {};", "(function() {})();", "(function() {});",
+            "Cardinal", "Exaltation", "Stellium", "Trine",
         ]
     },
     question3: {
-        title: "Which property is on the very outside of the CSS Box Model?",
+        title: 'Which of these signs are considered "Fixed"?',
         answers: [
-            "Padding", "Border", "Margin", "Content",
+            "Sagittarius", "Capricorn", "Taurus", "Aries",
         ]
     },
     question4: {
-        title: "Which method removes the last element from an array and also returns that same element?",
+        title: "How are synastry charts calculated?",
         answers: [
-            "array.concat()", "array.push()", "array.pop()", "array.indexOf()",
+            "Planetary placements at your time of birth.", "Mathematical midpoints between two persons natal charts.", "Overlap of two people's natal charts.", "Planetary placements at a given time.",
         ]
     },
     question5: {
-        title: "Which is not a valid data type in JavaScript?",
+        title: "How far apart are square signs?",
         answers: [
-            "Boolean", "Number", "float", "Undefined",
+            "180 degrees", "30 degrees", "90 degrees", "25 degrees",
         ]
     },
 };
